@@ -1,0 +1,11 @@
+{
+  "name": "osu-grave-finder",
+  "owner": { "name": "shinsh628" },
+  "plugins": [
+    {
+      "name": "osu-grave-finder",
+      "source": "./",
+      "description": "osu!mania 4K 무덤 연습맵 찾기 · 따닥이 분석 · 5분류 별점 페이지"
+    }
+  ]
+}

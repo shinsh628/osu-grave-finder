@@ -1,0 +1,6 @@
+{
+  "name": "osu-grave-finder",
+  "description": "osu!mania 4K 무덤 맵에서 목표 dan에 맞는 연습맵을 찾아 따닥이 기준 5분류·별점 페이지로 만드는 스킬 (예제 데이터셋 포함)",
+  "version": "0.1.0",
+  "author": { "name": "shinsh628" }
+}

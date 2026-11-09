@@ -1,0 +1,96 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root {
+  --bg: #f3f5f8; --surface: #ffffff; --fg: #18202b; --muted: #5d6a7a; --line: #dde3ea;
+  --accent: #d6336c; --accent-soft: #fbe4ec; --star: #f2a900; --star-off: #dde3ea;
+  --display: "Chakra Petch", "Noto Sans KR", system-ui, sans-serif;
+  --body: "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11151c; --surface: #171d26; --fg: #e6ebf2; --muted: #93a0b1; --line: #29313d;
+  --accent: #f06595; --accent-soft: #3a1f2b; --star: #ffc53d; --star-off: #2f3846; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11151c; --surface: #171d26; --fg: #e6ebf2; --muted: #93a0b1; --line: #29313d;
+  --accent: #f06595; --accent-soft: #3a1f2b; --star: #ffc53d; --star-off: #2f3846; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); display: flex; gap: 8px; flex-wrap: wrap; padding-block: 16px 12px; }
+.tabs a { font-family: var(--display); font-weight: 500; text-decoration: none; color: var(--fg); border: 1px solid var(--line); background: var(--surface); padding: 6px 14px; border-radius: 999px; font-size: .95rem; }
+.tabs a[aria-current="page"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.tabs a:hover, .tabs a:focus-visible { border-color: var(--accent); outline: none; }
+.list { display: grid; gap: 8px; }
+.card { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 4px 14px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px 8px 8px; color: var(--fg); text-decoration: none; }
+.card:hover, .card:focus-visible { border-color: var(--accent); outline: none; }
+.card:hover .title, .card:focus-visible .title { color: var(--accent); }
+.jk { grid-row: span 2; width: 56px; height: 56px; border-radius: 6px; object-fit: cover; background: var(--star-off); display: block; }
+.name { min-width: 0; }
+.title { font-weight: 500; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ver { color: var(--muted); font-size: .85rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stars { grid-row: span 2; position: relative; display: inline-block; width: 100px; height: 20px; }
+.stars svg { position: absolute; inset: 0; width: 100px; height: 20px; }
+.stars .on { clip-path: inset(0 var(--cut) 0 0); }
+.tags { grid-column: 2; display: flex; gap: 4px; flex-wrap: wrap; }
+.chip { font-size: .72rem; padding: 0 8px; border-radius: 4px; border: 1px solid var(--line); }
+.chip.main { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip.st { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 700; }
+@media (max-width: 480px) {
+  .card { grid-template-columns: 48px minmax(0, 1fr); }
+  .jk { width: 48px; height: 48px; grid-row: span 3; }
+  .stars { grid-row: auto; grid-column: 2; }
+}
+.more { display: flex; justify-content: center; margin-top: 14px; }
+.more button { font-family: var(--display); font-weight: 500; font-size: .95rem; padding: 8px 22px; border-radius: 999px; border: 1px solid var(--accent); background: var(--surface); color: var(--accent); cursor: pointer; }
+.more button:hover, .more button:focus-visible { background: var(--accent-soft); outline: none; }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="s5" viewBox="0 0 100 20"><path id="st" d="M10 1.2l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L1.3 7.5l6.1-.7z"/>
+    <use href="#st" x="20"/><use href="#st" x="40"/><use href="#st" x="60"/><use href="#st" x="80"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+  <nav class="tabs" id="tabs" aria-label="분류"></nav>
+  <div class="list" id="rows"></div>
+  <div class="more"><button type="button" id="moreBtn">더보기</button></div>
+</div>
+
+<script>
+const DATA = __DATA__;
+const THUMBS = __THUMBS__;
+const CLS = __CLASSES__;
+const TAG = { stream: "Stream", tech: "Tech", dumpstream: "Dumpstream", speedjack: "Speedjack", jumpstream: "Jumpstream", handstream: "Handstream", chordjack: "Chordjack", jack: "Jack", stamina: "Stamina" };
+const PAGE = __PAGE__, PER_STAR = __PER_STAR__;
+const state = { cls: CLS[0][0], shown: PAGE };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const nameOf = k => (CLS.find(c => c[0] === k) || CLS[0])[1];
+const list = k => DATA.filter(m => m.c === nameOf(k));
+function card(m) {
+  const img = THUMBS[m.id] ? `<img class="jk" src="data:image/jpeg;base64,${THUMBS[m.id]}" alt="" width="56" height="56">` : '<span class="jk"></span>';
+  const st = Math.max(0, Math.min(5, m.s / PER_STAR)), cut = (100 - st * 20).toFixed(1) + "%";
+  const chips = m.tg.map((t, j) => `<span class="chip${j ? "" : " main"}">${esc(TAG[t] || t)}</span>`).join("") + (m.st ? '<span class="chip st">체력</span>' : "");
+  return `<a class="card" href="${esc(m.u)}" target="_blank" rel="noopener">${img}
+    <span class="name"><span class="title">${esc(m.a)} – ${esc(m.t)}</span><span class="ver">[${esc(m.v)}]</span></span>
+    <span class="stars" role="img" aria-label="별 5개 중 ${st.toFixed(1)}개">
+      <svg fill="var(--star-off)"><use href="#s5"/></svg><svg class="on" fill="var(--star)" style="--cut:${cut}"><use href="#s5"/></svg></span>
+    <span class="tags">${chips}</span></a>`;
+}
+function render(from) {
+  const xs = list(state.cls), box = document.getElementById("rows"), shown = Math.min(state.shown, xs.length);
+  const html = xs.slice(from, shown).map(card).join("");
+  if (from) box.insertAdjacentHTML("beforeend", html); else box.innerHTML = html;
+  const btn = document.getElementById("moreBtn"), left = xs.length - shown;
+  btn.hidden = left <= 0; btn.textContent = `더보기 (${left})`;
+  document.getElementById("tabs").innerHTML = CLS.map(([k, n]) => `<a href="#${k}"${k === state.cls ? ' aria-current="page"' : ""}>${n}</a>`).join("");
+}
+function fromHash() {
+  const h = location.hash.slice(1);
+  state.cls = CLS.some(c => c[0] === h) ? h : CLS[0][0]; state.shown = PAGE; render(0);
+}
+document.getElementById("moreBtn").addEventListener("click", () => { const prev = Math.min(state.shown, list(state.cls).length); state.shown += PAGE; render(prev); });
+window.addEventListener("hashchange", fromHash);
+fromHash();
+</script>

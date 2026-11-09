@@ -1,0 +1,71 @@
+{
+  "osu_user_id": null,
+  "target_dan": 11.0,
+
+  "search": {
+    "query": "key=4 star>=3.5 star<=7 length<=300",
+    "fav_start": 99,
+    "target_candidates": 5000,
+    "star_min": 4.0, "star_min_single": 3.5, "star_max": 7.0,
+    "length_min": 60, "length_max": 300,
+    "ln_max": 0.15,
+    "max_per_mapper": 10,
+    "min_per_mapper": 2,
+    "max_charts_per_set": 3,
+    "exclude_mapper_ids": [],
+    "pack_title": "\\bpack\\b|compilation|collection|complexes|marathon|\\bdan\\s*[~(]|dan course|dan-|\\bdan v\\d|training|practice|mappack|minipack"
+  },
+
+  "calc": {
+    "shards": 0,
+    "probe_rate": 1.35,
+    "curve_rates": [0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+  },
+
+  "refine": {
+    "step": 0.05,
+    "rate_min": 0.5,
+    "rate_max": 2.0,
+    "extend": 3
+  },
+
+  "patterns": {
+    "primary": ["stream", "tech"],
+    "sub": ["dumpstream", "speedjack"]
+  },
+
+  "tadak": {
+    "min_bpm": 150,
+    "max_bpm": 400,
+    "tol_ms": 3,
+    "main_cluster": 0.03
+  },
+
+  "stamina_hard_s": 70,
+  "sv_drop_major": 3,
+
+  "score": {
+    "base": 50,
+    "community_max": 10,
+    "density_max": 25,
+    "rest_free_s": 40, "rest_max": 30,
+    "flat_cv0": 0.045, "flat_per_cv": 400, "flat_max": 20,
+    "sv_minor_count": 3, "sv_penalty": 20
+  },
+
+  "classes": [
+    {"id": "ttak-dump", "name": "따닥덤프", "when": "base == 'dump' and r3 < 0.10 and ratio >= 0.03"},
+    {"id": "dump",      "name": "덤프",     "when": "base == 'dump' and r3 < 0.10"},
+    {"id": "ttak-tech", "name": "따닥테크", "when": "not (base == 'speedjack' and primary in ('jack', 'chordjack', 'tech')) and ratio >= 0.08 and main > 165"},
+    {"id": "tech",      "name": "테크",     "when": "not (base == 'speedjack' and primary in ('jack', 'chordjack', 'tech'))"},
+    {"id": "speedjack", "name": "스잭",     "when": "True"}
+  ],
+
+  "page": {
+    "title": "무덤 연습맵 5분류",
+    "page_size": 20,
+    "star_offset": 10,
+    "points_per_star": 10,
+    "hide_played": false
+  }
+}
